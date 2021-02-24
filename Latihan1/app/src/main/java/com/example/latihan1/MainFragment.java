@@ -75,7 +75,6 @@ public class MainFragment extends Fragment implements View.OnClickListener,Recyc
                 currentPerson.setAge(Integer.parseInt(edtAge.getText().toString()));
                 db.update(currentPerson);
             }
-            setupRecyclerView();
             edtName.setText("");
             edtAge.setText("");
             edtName.setFocusable(true);
@@ -83,19 +82,18 @@ public class MainFragment extends Fragment implements View.OnClickListener,Recyc
         }
     }
 
-    @Override
-    public void onUserClick(PersonBean currentPerson, String action) {
-        if(action.equals("Edit")){
-
-            edtName.setText(currentPerson.getName());
-            edtName.setFocusable(false);
-            edtAge.setText(currentPerson.getAge()+"");
-            btnSubmit.setText("Update");
+        @Override
+        public void onUserClick(PersonBean currentPerson, String action) {
+            if(action.equals("Edit")){
+                edtName.setText(currentPerson.getName());
+                edtName.setFocusable(false);
+                edtAge.setText(currentPerson.getAge()+"");
+                btnSubmit.setText("Update");
+            }
+            if(action.equals("Delete")){
+                DatabaseHelper db=new DatabaseHelper(context);
+                db.delete(currentPerson.getName());
+                setupRecyclerView();
+            }
         }
-        if(action.equals("Delete")){
-            DatabaseHelper db=new DatabaseHelper(context);
-            db.delete(currentPerson.getName());
-            setupRecyclerView();
-        }
-    }
 }
